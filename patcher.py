@@ -116,11 +116,13 @@ def main():
 
     if not hasHostsPermission:
         print("You don't have permission to write to the hosts file.")
-        print("Pretty printing the domains...")
+        print("Exporting domains...")
         with open("domains.txt", "w") as f:
             for domain in domains:
                 f.write(f"0.0.0.0 {domain}\n")
-        print("Done. The domains are written to domains.txt.")
+        print("Done. The domains are written to domains.txt. Add them to the hosts file manually.")
+        print("If you want this program to write to the hosts file, run it as administrator.")
+        input()
         return
     
     print("Do you want to write these domains to the hosts file? (y/n)")
