@@ -26,11 +26,9 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-        working-directory: ${{ github.workspace }}
 
-      - name: Run build.py to generate executable
-        run: python build.py
-        working-directory: ${{ github.workspace }}
+      - name: Generate executable
+        run: python -m PyInstaller patcher.py
 
       - name: Upload executable to artifacts
         uses: actions/upload-artifact@v4
