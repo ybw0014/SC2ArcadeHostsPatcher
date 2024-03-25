@@ -60,17 +60,17 @@ def punycode(domain):
 
 def main():
     regionId = 1  # 1=America, 2=Europe, 3=Asia
+    hasHostsPermission = False
 
     # check if there is write permission to the hosts file
     try:
         with open(HOSTS_PATH, "a+") as f:
             f.close()
+            hasHostsPermission = True
     except PermissionError:
         print(
-            "You don't have permission to write to the hosts file. Run this script/executable as administrator."
+            "You don't have permission to write to the hosts file. You will only see the domains found in active lobbies."
         )
-        input()
-        return
 
     # get lobbies
     print("Fetching lobbies...")
@@ -108,7 +108,25 @@ def main():
 
     # covert to punycode
     domains = [punycode(domain) for domain in domains]
+
+    # prompt the user whether to write to hosts file
+    print("These domains are found in active lobbies:")
     print(domains)
+    print()
+
+    if not hasHostsPermission:
+        print("You don't have permission to write to the hosts file.")
+        print("Pretty printing the domains...")
+        with open("domains.txt", "w") as f:
+            for domain in domains:
+                f.write(f"0.0.0.0 {domain}\n")
+        print("Done. The domains are written to domains.txt.")
+        return
+    
+    print("Do you want to write these domains to the hosts file? (y/n)")
+    answer = input()
+    if answer.lower() != "y":
+        return
 
     # write to hosts file
     print("Writing to hosts file...")
