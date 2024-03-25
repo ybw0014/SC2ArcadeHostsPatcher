@@ -2,3 +2,4 @@ requests
 idna
 progress
 python-hosts
+py2exe
