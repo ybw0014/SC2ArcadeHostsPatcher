@@ -41,9 +41,6 @@ jobs:
   release:
     needs: build
     runs-on: windows-latest
-    env:
-      RELEASE_TAG: "v${{ github.run_number }}"
-      RELEASE_NAME: "Release ${{ github.run_number }}"
 
     steps:
       - name: Download artifact
@@ -57,5 +54,4 @@ jobs:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           prerelease: false
           files: |
-            LICENSE.txt
             dist/patcher.exe
