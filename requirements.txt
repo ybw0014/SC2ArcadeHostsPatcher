@@ -1,0 +1,4 @@
+requests
+idna
+progress
+python-hosts
