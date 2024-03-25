@@ -4,6 +4,12 @@ This is a patcher script which retrieves the alive arcade lobbies on America ser
 
 ## How to use
 
-Download from releases, run the executable file as administrator.
-
+Download from releases, run the executable file as administrator.  
 If the window just flashes and closes, move the executable to somewhere else and run it again.
+
+Or you can clone the repository, run the following command to install the dependencies, and then run the script. (Make sure your command line is running as administrator)
+
+```bash
+pip install -r requirements.txt
+python -u patcher.py
+```
