@@ -12,3 +12,11 @@ Or you can clone the repository, run the following command to install the depend
 pip install -r requirements.txt
 python -u patcher.py
 ```
+
+## Disclaimer
+
+Hosts file patch is a temporary solution for avoiding game being stalled, until Blizzard takes action to fix this issue.
+
+The attackers may add some commonly used domains (such as google.com, youtube.com, bing.com) in their attack maps in the future. I have added a confirmation prompt before updating the hosts file, so you can check the domains before updating.
+
+If you confirm, you are responsible for the consequences of updating the hosts file.
