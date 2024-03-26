@@ -13,7 +13,10 @@ HOSTS_PATH = r"C:\Windows\System32\drivers\etc\hosts"
 
 def get_data(endpoint, params=None):
     response = requests.get(endpoint, params=params)
-    return response.json()
+    try:
+        return response.json()
+    except:
+        return None
 
 
 def get_lobbies(regionId):
@@ -99,6 +102,8 @@ def main():
     domains = set()
     for mapId in mapIds:
         map_info = get_map(regionId, mapId)
+        if map_info is None:
+            continue
         if "name" in map_info and has_img_tag(map_info["name"]):
             domains.update(get_domains(map_info["name"]))
         if "description" in map_info and has_img_tag(map_info["description"]):
