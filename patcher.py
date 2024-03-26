@@ -11,6 +11,14 @@ DOMAIN_PATTERN = r"//(.+?)/"
 HOSTS_PATH = r"C:\Windows\System32\drivers\etc\hosts"
 
 
+def prompt(prompt_text, acceptable_values):
+    while True:
+        user_input = input(prompt_text)
+        if user_input in acceptable_values:
+            return user_input
+        print("Invalid input. Please try again.")
+
+
 def get_data(endpoint, params=None):
     response = requests.get(endpoint, params=params)
     try:
@@ -62,7 +70,6 @@ def punycode(domain):
 
 
 def main():
-    regionId = 1  # 1=America, 2=Europe, 3=Asia
     hasHostsPermission = False
 
     # check if there is write permission to the hosts file
@@ -74,6 +81,11 @@ def main():
         print(
             "You don't have permission to write to the hosts file. You will only see the domains found in active lobbies."
         )
+
+    # prompt the user to enter the region id
+    regionId = int(
+        prompt("Enter the region id (1=America, 2=Europe, 3=Asia): ", ["1", "2", "3"])
+    )
 
     # get lobbies
     print("Fetching lobbies...")
@@ -111,6 +123,11 @@ def main():
         bar.next()
     bar.finish()
 
+    if len(domains) == 0:
+        print("There are no active attack lobbies.")
+        input()
+        return
+
     # covert to punycode
     domains = [punycode(domain) for domain in domains]
 
@@ -125,11 +142,15 @@ def main():
         with open("domains.txt", "w") as f:
             for domain in domains:
                 f.write(f"0.0.0.0 {domain}\n")
-        print("Done. The domains are written to domains.txt. Add them to the hosts file manually.")
-        print("If you want this program to write to the hosts file, run it as administrator.")
+        print(
+            "Done. The domains are written to domains.txt. Add them to the hosts file manually."
+        )
+        print(
+            "If you want this program to write to the hosts file, run it as administrator."
+        )
         input()
         return
-    
+
     print("Do you want to write these domains to the hosts file? (y/n)")
     answer = input()
     if answer.lower() != "y":
